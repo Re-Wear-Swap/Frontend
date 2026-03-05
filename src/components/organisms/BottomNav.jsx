@@ -10,7 +10,7 @@ const TABS = [
 
 export const BottomNav = ({ active }) => {
   const navigate = useNavigate()
-  const { surface, border, text } = useTheme()
+  const { surface, border } = useTheme()
 
   return (
     <nav style={{

@@ -3,7 +3,7 @@ import { BottomNav } from '../organisms/BottomNav'
 import { useTheme } from '../../context/useTheme'
 
 export const HomeTemplate = ({ children, activeTab = 'inicio' }) => {
-  const { isDark, toggleTheme, bg, border, text } = useTheme()
+  const { isDark, toggleTheme, bg, border } = useTheme()
 
   return (
     <div style={{ width: '100%', minHeight: '100vh', background: bg, fontFamily: 'sans-serif', color: text }}>
