@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { TabItem } from '../atoms/TabItem'
 import { ClothingCard } from '../molecules/ClothingCard'
 
-const TABS = ['Mi Armario', 'Intercambios', 'Favoritos']
+const TABS = ['Mi Armario', 'Favoritos']
 
 const ITEMS = [
     { id: 1, name: 'Camiseta Oversize', condition: 'Usado: buen estado', points: 1, status: 'Disponible' },
@@ -25,9 +25,9 @@ export const ProfileTabs = () => {
                 {activeTab === 'Mi Armario' && ITEMS.map(item => (
                     <ClothingCard key={item.id} {...item} onAdd={() => alert('Subir prenda')} />
                 ))}
-                {activeTab === 'Intercambios' && (
+                {/* {activeTab === 'Intercambios' && (
                     <p style={{ color: '#aaa', gridColumn: '1/-1', textAlign: 'center', padding: 40 }}>No hay intercambios aún</p>
-                )}
+                )} */}
                 {activeTab === 'Favoritos' && (
                     <p style={{ color: '#aaa', gridColumn: '1/-1', textAlign: 'center', padding: 40 }}>No hay favoritos aún</p>
                 )}

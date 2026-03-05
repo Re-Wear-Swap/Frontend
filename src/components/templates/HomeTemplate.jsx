@@ -10,7 +10,7 @@ export const HomeTemplate = ({ hero, grid }) => (
     }}>
       <img src={logo} alt="Re-wear logo" style={{ height: 48, width: 'auto', objectFit: 'contain' }} />
       <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: 'white' }}>Re-wear</h2>
-      <span style={{ fontSize: 26, cursor: 'pointer', color: 'white' }}>í´</span>
+      {/* <span style={{ fontSize: 26, cursor: 'pointer', color: 'white' }}>ï¿½ï¿½ï¿½</span> */}
     </header>
     <main style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
       {hero}
