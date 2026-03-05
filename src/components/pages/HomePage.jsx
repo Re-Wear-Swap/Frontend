@@ -5,16 +5,13 @@ import { ProductGrid } from '../organisms/ProductGrid'
 
 export function HomePage() {
   const navigate = useNavigate()
-
   return (
-    <HomeTemplate
-      hero={
-        <HeroSection
-          onRegister={() => navigate('/register')}
-          onGuest={() => navigate('/login')}
-        />
-      }
-      grid={<ProductGrid onViewAll={() => navigate('/explore')} />}
-    />
+    <HomeTemplate activeTab="inicio">
+      <HeroSection
+        onRegister={() => navigate('/register')}
+        onGuest={() => navigate('/login')}
+      />
+      <ProductGrid onViewAll={() => navigate('/explore')} />
+    </HomeTemplate>
   )
 }
