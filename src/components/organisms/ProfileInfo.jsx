@@ -9,19 +9,19 @@ export const ProfileInfo = ({ user }) => (
       Moda circular e inclusiva
     </p>
     <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
-      <button style={{
+      {/* <button style={{
         flex: 1, background: '#9333ea', color: 'white', border: 'none',
         borderRadius: 50, padding: '14px', fontSize: 15, fontWeight: 700, cursor: 'pointer',
-      }}>Editar Perfil</button>
-      <button style={{
+      }}>Editar Perfil</button> */}
+      {/* <button style={{
         background: '#f3e8ff', border: 'none', borderRadius: 50,
         width: 50, height: 50, fontSize: 20, cursor: 'pointer',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}>↗</button>
+      }}>↗</button> */}
     </div>
     <div style={{ display: 'flex', gap: 12, marginBottom: 28 }}>
       <StatCard label="TU SALDO" value={user.points} unit="Puntos" />
-      <StatCard label="TRUEQUES" value={user.swaps} />
+      {/* <StatCard label="TRUEQUES" value={user.swaps} /> */}
     </div>
   </div>
 )
