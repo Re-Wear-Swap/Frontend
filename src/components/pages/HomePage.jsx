@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
-import { HomeTemplate } from '../templates/HomeTemplate'
-import { HeroSection } from '../organisms/HeroSection'
-import { ProductGrid } from '../organisms/ProductGrid'
+import { HomeTemplate } from "../templates/HomeTemplate";
+import { HeroSection } from "../organisms/HeroSection";
+import { ProductGrid } from "../organisms/ProductGrid";
 
 export function HomePage() {
   const navigate = useNavigate()
@@ -15,3 +15,4 @@ export function HomePage() {
     </HomeTemplate>
   )
 }
+

@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/useTheme'
 
 const TABS = [
- { icon: '🏠', label: 'Inicio', key: 'inicio', path: '/' },
-    { icon: '🧭', label: 'Explorar', key: 'explorar', path: '/explore' },
-    { icon: '➕', label: 'Subir', key: 'subir', path: '/upload' },
-    { icon: '👤', label: 'Perfil', key: 'perfil', path: '/profile' },
+  { icon: '🏠', label: 'Inicio', key: 'inicio', path: '/' },
+  { icon: '🧭', label: 'Explorar', key: 'explorar', path: '/explore' },
+  { icon: '➕', label: 'Subir', key: 'subir', path: '/newarticle' },
+  { icon: '👤', label: 'Perfil', key: 'perfil', path: '/profile' },
 ]
 
 export const BottomNav = ({ active }) => {

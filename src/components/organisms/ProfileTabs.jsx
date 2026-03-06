@@ -1,37 +1,66 @@
-import { useState } from 'react'
-import { TabItem } from '../atoms/TabItem'
-import { ClothingCard } from '../molecules/ClothingCard'
+import { useEffect, useState } from "react";
+import { getArticles, deleteArticle } from "../../services/api";
+import { ProductCard } from "../molecules/ProductCard.jsx";
 
-const TABS = ['Mi Armario', 'Favoritos']
+export const ProfileTabs = ({ userId }) => {
+  const [articles, setArticles] = useState([]);
 
-const ITEMS = [
-    { id: 1, name: 'Camiseta Oversize', condition: 'Usado: buen estado', points: 1, status: 'Disponible' },
-    { id: 2, name: 'Gorra Streetwear', condition: 'Nuevo', points: 1, status: 'Reservado' },
-    { id: 3, name: 'Sudadera Basic', condition: 'Usado: regular', points: 1, status: 'Intercambiado' },
-    { id: 4, isEmpty: true },
-]
+  useEffect(() => {
+    getArticles().then((allArticles) => {
+      const filtered = allArticles.filter(a => a.user?.id === userId);
+      setArticles(filtered);
+    });
+  }, [userId]);
 
-export const ProfileTabs = () => {
-    const [activeTab, setActiveTab] = useState('Mi Armario')
+  const handleDelete = async (id) => {
+    await deleteArticle(id);
+    setArticles(prev => prev.filter(a => a.id !== id));
+  };
 
-    return (
-        <div style={{ padding: '0 16px 100px' }}>
-            <div style={{ display: 'flex', gap: 24, borderBottom: '1px solid #e9d5ff', marginBottom: 20 }}>
-                {TABS.map(tab => (
-                    <TabItem key={tab} label={tab} active={activeTab === tab} onClick={() => setActiveTab(tab)} />
-                ))}
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                {activeTab === 'Mi Armario' && ITEMS.map(item => (
-                    <ClothingCard key={item.id} {...item} onAdd={() => alert('Subir prenda')} />
-                ))}
-                {/* {activeTab === 'Intercambios' && (
-                    <p style={{ color: '#aaa', gridColumn: '1/-1', textAlign: 'center', padding: 40 }}>No hay intercambios aún</p>
-                )} */}
-                {activeTab === 'Favoritos' && (
-                    <p style={{ color: '#aaa', gridColumn: '1/-1', textAlign: 'center', padding: 40 }}>No hay favoritos aún</p>
-                )}
-            </div>
-        </div>
-    )
-}
+  return (
+    <div style={{ padding: "16px" }}>
+      <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 16 }}>
+        Mis Artículos
+      </h2>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+          gap: 12,
+        }}
+      >
+        {articles.map((a) => (
+          <div key={a.id} style={{ position: "relative" }}>
+            <ProductCard
+              id={a.id}
+              imageUrl={a.imageUrl}
+              title={a.title}
+              itemCondition={a.itemCondition}
+              user={a.user}
+            />
+
+            <button
+              onClick={() => handleDelete(a.id)}
+              style={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+                background: "red",
+                color: "white",
+                border: "none",
+                borderRadius: 6,
+                padding: "4px 8px",
+                cursor: "pointer",
+                fontSize: 12,
+                fontWeight: 700,
+              }}
+            >
+              Eliminar
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};

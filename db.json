@@ -1,0 +1,43 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Juan",
+      "email": "juan@example.com",
+      "isAdult": true
+    },
+    {
+      "id": 2,
+      "name": "Maria",
+      "email": "maria@example.com",
+      "isAdult": true
+    }
+  ],
+
+  "articles": [
+    {
+      "id": 1,
+      "title": "Camiseta Nike",
+      "description": "Casi nueva",
+      "imageUrl": "https://imagen.com/camisa.jpg",
+      "category": "CAMISETAS",
+      "itemCondtition": "USADO_BUEN_ESTADO",
+      "arcticleStatus": "DISPONIBLE",
+      "user": { "id": 1 },
+      "createdAt": "2024-02-01T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "title": "Zapatillas Adidas",
+      "description": "Muy poco uso",
+      "imageUrl": "https://imagen.com/zapas.jpg",
+      "category": "ZAPATOS",
+      "itemCondtition": "NUEVO",
+      "arcticleStatus": "RESERVADO",
+      "user": { "id": 2 },
+      "createdAt": "2024-02-10T12:00:00Z"
+    }
+  ],
+
+  "reservations": []
+}
