@@ -23,16 +23,15 @@ export const ArticlesProvider = ({ children }) => {
       status: 'Disponible',
       isOwn: true,
     }
-    console.log('ArticlesContext - añadiendo:', newArticle)
-    setArticles(prev => {
-      const updated = [newArticle, ...prev]
-      console.log('ArticlesContext - total artículos:', updated.length)
-      return updated
-    })
+    setArticles(prev => [newArticle, ...prev])
+  }
+
+  const removeArticle = (id) => {
+    setArticles(prev => prev.filter(a => a.id !== id))
   }
 
   return (
-    <ArticlesContext.Provider value={{ articles, addArticle }}>
+    <ArticlesContext.Provider value={{ articles, addArticle, removeArticle }}>
       {children}
     </ArticlesContext.Provider>
   )
