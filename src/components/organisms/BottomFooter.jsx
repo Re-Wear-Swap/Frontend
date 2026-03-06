@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 
 const TABS = [
     { icon: '🏠', label: 'Inicio', key: 'inicio', path: '/' },
-    { icon: '🧭', label: 'Explorar', key: 'explorar', path: '/explore' },
+    { icon: '👗', label: 'Catálogo', key: 'catalogo', path: '/catalog' },
     { icon: '➕', label: 'Subir', key: 'subir', path: '/upload' },
     { icon: '👤', label: 'Perfil', key: 'perfil', path: '/profile' },
 ]

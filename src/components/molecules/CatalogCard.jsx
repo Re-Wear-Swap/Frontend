@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+
+// owners si se utiliza, debe ser un array de objetos con la forma { photo: 'url_de_la_foto' }
 export const CatalogCard = ({ image, name, description, condition, points, owners }) => {
     const conditionColor = condition === 'NUEVO' ? '#9333ea' : '#888'
     const [isFav, setIsFav] = useState(false)

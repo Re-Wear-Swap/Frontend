@@ -3,7 +3,7 @@ import { useTheme } from '../../context/useTheme'
 
 const TABS = [
   { icon: '🏠', label: 'Inicio', key: 'inicio', path: '/' },
-  { icon: '👗', label: 'Catálogo', key: 'catalogo', path: '/explore' },
+  { icon: '👗', label: 'Catálogo', key: 'catalogo', path: '/catalog' },
   { icon: '➕', label: 'Subir', key: 'subir', path: '/upload' },
   { icon: '👤', label: 'Perfil', key: 'perfil', path: '/profile' },
 ]

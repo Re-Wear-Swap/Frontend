@@ -7,8 +7,8 @@ import { ImageUploader } from '../molecules/ImageUploader'
 
 const CONDITIONS = [
   { value: 'Nuevo', label: 'Nuevo' },
-  { value: 'Buen estado', label: 'Buen estado' },
-  { value: 'Regular', label: 'Regular' },
+  { value: 'Usado: Buen estado', label: 'Usado: Buen estado' },
+  { value: 'Usado: Regular', label: 'Usado: Regular' },
 ]
 
 const CATEGORIES = [

@@ -1,8 +1,8 @@
 import { UserAvatarGroup } from '../molecules/UserAvatarGroup'
 
 const USERS = [
-  { photo: 'https://randomuser.me/api/portraits/women/44.jpg', online: true },
-  { photo: 'https://randomuser.me/api/portraits/men/32.jpg', online: true },
+  { photo: 'https://randomuser.me/api/portraits/women/66.jpg', online: true },
+  { photo: 'https://randomuser.me/api/portraits/men/77.jpg', online: true },
 ]
 
 export const HeroSection = ({ onRegister, onGuest }) => (
