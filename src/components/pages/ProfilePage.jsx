@@ -5,7 +5,7 @@ import { ProfileTabs } from '../organisms/ProfileTabs'
 const USER = {
   name: 'Daniel',
   username: 'daniel_re',
-  photo: null,
+  photo: 'https://randomuser.me/api/portraits/men/98.jpg',
   verified: true,
   points: 3,
   swaps: 12,

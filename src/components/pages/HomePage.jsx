@@ -11,7 +11,7 @@ export function HomePage() {
         onRegister={() => navigate('/register')}
         onGuest={() => navigate('/login')}
       />
-      <ProductGrid onViewAll={() => navigate('/explore')} />
+      <ProductGrid onViewAll={() => navigate('/catalog')} />
     </HomeTemplate>
   )
 }

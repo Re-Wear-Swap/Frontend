@@ -2,15 +2,15 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/useTheme'
 
 const TABS = [
- { icon: '🏠', label: 'Inicio', key: 'inicio', path: '/' },
-    { icon: '🧭', label: 'Explorar', key: 'explorar', path: '/explore' },
-    { icon: '➕', label: 'Subir', key: 'subir', path: '/upload' },
-    { icon: '👤', label: 'Perfil', key: 'perfil', path: '/profile' },
+  { icon: '🏠', label: 'Inicio', key: 'inicio', path: '/' },
+  { icon: '👗', label: 'Catálogo', key: 'catalogo', path: '/catalog' },
+  { icon: '➕', label: 'Subir', key: 'subir', path: '/upload' },
+  { icon: '👤', label: 'Perfil', key: 'perfil', path: '/profile' },
 ]
 
 export const BottomNav = ({ active }) => {
   const navigate = useNavigate()
-  const { surface, border, text } = useTheme()
+  const { surface, border } = useTheme()
 
   return (
     <nav style={{
@@ -22,7 +22,7 @@ export const BottomNav = ({ active }) => {
       {TABS.map(({ icon, label, key, path }) => (
         <div key={key} onClick={() => navigate(path)} style={{ textAlign: 'center', cursor: 'pointer' }}>
           <div style={{ fontSize: 22 }}>{icon}</div>
-          <div style={{ fontSize: 10, fontWeight: 600, color: active === key ? '#9333ea' : text }}>
+          <div style={{ fontSize: 10, fontWeight: 600, color: active === key ? '#9333ea' : '#aaa' }}>
             {label}
           </div>
         </div>
