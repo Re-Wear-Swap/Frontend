@@ -1,20 +1,16 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useArticles } from '../../context/useArticles'
 import { TabItem } from '../atoms/TabItem'
 import { ClothingCard } from '../molecules/ClothingCard'
 
 const TABS = ['Mi Armario', 'Intercambios', 'Favoritos']
 
-const ITEMS = [
-  { id: 1, name: 'Camiseta Oversize', condition: 'Usado: buen estado', points: 1, status: 'Disponible' },
-  { id: 2, name: 'Gorra Streetwear', condition: 'Nuevo', points: 1, status: 'Reservado' },
-  { id: 3, name: 'Sudadera Basic', condition: 'Usado: regular', points: 1, status: 'Intercambiado' },
-  { id: 4, isEmpty: true },
-]
-
 export const ProfileTabs = () => {
   const [activeTab, setActiveTab] = useState('Mi Armario')
   const navigate = useNavigate()
+  const { articles } = useArticles()
+  const myArticles = articles.filter(a => a.isOwn)
 
   return (
     <div style={{ padding: '0 16px 100px' }}>
@@ -24,9 +20,14 @@ export const ProfileTabs = () => {
         ))}
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        {activeTab === 'Mi Armario' && ITEMS.map(item => (
-          <ClothingCard key={item.id} {...item} onAdd={() => navigate('/upload')} />
-        ))}
+        {activeTab === 'Mi Armario' && (
+          <>
+            {myArticles.map(item => (
+              <ClothingCard key={item.id} {...item} />
+            ))}
+            <ClothingCard isEmpty onAdd={() => navigate('/upload')} />
+          </>
+        )}
         {activeTab === 'Intercambios' && (
           <p style={{ color: '#aaa', gridColumn: '1/-1', textAlign: 'center', padding: 40 }}>No hay intercambios aún</p>
         )}
