@@ -14,7 +14,7 @@ export const ImageUploader = ({ onImageChange }) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <label style={{ fontSize: 13, fontWeight: 700, color: text }}>Imagen</label>
+      <label style={{ fontSize: 13, fontWeight: 700, color: '#1a0533' }}>Imagen</label>
       <label style={{
         border: `2px dashed ${border}`,
         borderRadius: 16, padding: '24px',
