@@ -3,7 +3,7 @@ import { HomeTemplate } from '../templates/HomeTemplate'
 import { ArticleForm } from '../organisms/ArticleForm'
 import { useArticles } from '../../context/useArticles'
 
-const MAX_SIZE_MB = 5
+const MAX_SIZE_MB = 0.1
 
 export function UploadPage() {
   const navigate = useNavigate()
@@ -11,7 +11,7 @@ export function UploadPage() {
 
   const handleSubmit = (formData) => {
     if (formData.image && formData.image.size > MAX_SIZE_MB * 1024 * 1024) {
-      alert('La imagen no puede superar 5MB')
+      alert('La imagen no puede superar 0.1MB')
       return
     }
     console.log('Subiendo articulo:', formData)
