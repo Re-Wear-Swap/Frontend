@@ -1,8 +1,6 @@
 import { useState } from 'react'
 
-
-// owners si se utiliza, debe ser un array de objetos con la forma { photo: 'url_de_la_foto' }
-export const CatalogCard = ({ image, name, description, condition, points, owners }) => {
+export const CatalogCard = ({ image, name, description, condition, points }) => {
     const conditionColor = condition === 'NUEVO' ? '#9333ea' : '#888'
     const [isFav, setIsFav] = useState(false)
 
@@ -44,27 +42,6 @@ export const CatalogCard = ({ image, name, description, condition, points, owner
                 }}>
                     {points} PUNTO
                 </span>
-
-                {/* AQUI PODEMOS MOSTRAR, SI LO CONSEGUIMOS, LA IMAGEN DEL PROPIETARIO DEL ARTÍCULO */}
-                {/* {owners && owners.length > 0 && (
-                    <div style={{ position: 'absolute', bottom: 10, left: 12, display: 'flex' }}>
-                        {owners.map((o, i) => (
-                            <div key={i} style={{
-                                width: 28, height: 28, borderRadius: '50%',
-                                border: '2px solid white',
-                                marginLeft: i > 0 ? -8 : 0,
-                                background: '#e9d5ff', overflow: 'hidden',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                fontSize: 14,
-                            }}>
-                                {o.photo
-                                    ? <img src={o.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                    : '👤'
-                                }
-                            </div>
-                        ))}
-                    </div>
-                )} */}
             </div>
 
             <div style={{ padding: '12px 14px 16px' }}>
