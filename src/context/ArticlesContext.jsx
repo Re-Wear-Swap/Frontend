@@ -1,37 +1,55 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect } from 'react'
+import { getArticles, createArticle, deleteArticle } from '../services/articlesService'
+import { uploadImage } from '../services/imageService'
 
 export const ArticlesContext = createContext()
 
-export const ArticlesProvider = ({ children }) => {
-  const [articles, setArticles] = useState([
-    { id: 1, name: 'Chaqueta Denim', description: 'Estilo sin género', condition: 'Nuevo', category: 'chaquetas', points: 1, image: null, owners: [{ photo: null }, { photo: null }], isOwn: false },
-    { id: 2, name: 'Camiseta Algodón', description: 'Talle inclusivo', condition: 'Buen estado', category: 'camisetas', points: 1, image: null, owners: [{ photo: null }], isOwn: false },
-    { id: 3, name: 'Pantalón Cargo', description: 'Prenda versátil', condition: 'Regular', category: 'pantalones', points: 1, image: null, owners: [{ photo: null }], isOwn: false },
-    { id: 4, name: 'Jersey de Lana', description: 'Acogedor y unisex', condition: 'Nuevo', category: 'camisetas', points: 1, image: null, owners: [{ photo: null }, { photo: null }], isOwn: false },
-  ])
+const CURRENT_USER_ID = 1
 
-  const addArticle = (formData) => {
-    const newArticle = {
-      id: Date.now(),
-      name: formData.name,
-      description: formData.description,
-      condition: formData.condition,
-      category: formData.category,
-      points: 1,
-      image: formData.image ? URL.createObjectURL(formData.image) : null,
-      owners: [{ photo: null }],
-      status: 'Disponible',
-      isOwn: true,
+const mapArticle = (a) => ({
+  ...a,
+  name: a.title,
+  condition: a.itemCondition,
+  image: a.imageUrl,
+  isOwn: a.user?.id === CURRENT_USER_ID,
+})
+
+export const ArticlesProvider = ({ children }) => {
+  const [articles, setArticles] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    getArticles()
+      .then(data => setArticles(data.map(mapArticle)))
+      .catch(err => console.error('Error cargando articulos:', err))
+      .finally(() => setLoading(false))
+  }, [])
+
+  const addArticle = async (formData) => {
+    let imageUrl = ''
+    if (formData.image) {
+      imageUrl = await uploadImage(formData.image)
     }
-    setArticles(prev => [newArticle, ...prev])
+    const newArticle = {
+      title: formData.name,
+      description: formData.description,
+      itemCondition: formData.itemCondition,
+      category: formData.category,
+      imageUrl,
+      articleStatus: 'DISPONIBLE',
+      user: { id: CURRENT_USER_ID },
+    }
+    const saved = await createArticle(newArticle)
+    setArticles(prev => [{ ...mapArticle(saved), isOwn: true }, ...prev])
   }
 
-  const removeArticle = (id) => {
+  const removeArticle = async (id) => {
+    await deleteArticle(id)
     setArticles(prev => prev.filter(a => a.id !== id))
   }
 
   return (
-    <ArticlesContext.Provider value={{ articles, addArticle, removeArticle }}>
+    <ArticlesContext.Provider value={{ articles, addArticle, removeArticle, loading }}>
       {children}
     </ArticlesContext.Provider>
   )
