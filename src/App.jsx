@@ -3,6 +3,8 @@ import { HomePage } from './components/pages/HomePage'
 import { ProfilePage } from './components/pages/ProfilePage'
 import { CatalogPage } from './components/pages/CatalogPage'
 import { UploadPage } from './components/pages/UploadPage'
+import { ArticleDetailPage } from './components/pages/ArticleDetailPage'
+import { EditArticlePage } from './components/pages/EditArticlePage'
 
 // ⭐ AÑADIDOS
 import { LoginPage } from './components/pages/LoginPage'
@@ -19,6 +21,9 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="*" element={<HomePage />} />
+      <Route path="/article/:id" element={<ArticleDetailPage />} />
+      <Route path="/edit/:id" element={<EditArticlePage />} />
+
     </Routes>
   )
 }

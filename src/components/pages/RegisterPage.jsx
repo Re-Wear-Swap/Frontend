@@ -5,14 +5,14 @@ import { useUser } from '../../context/UserContext'
 
 export function RegisterPage() {
   const navigate = useNavigate()
-  const { login } = useUser()
+  const { register } = useUser()
 
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [photo, setPhoto] = useState(null)
   const [isAdult, setIsAdult] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (!isAdult) {
@@ -20,16 +20,11 @@ export function RegisterPage() {
       return
     }
 
-    const photoUrl = photo ? URL.createObjectURL(photo) : null
-
-    login({
+    await register({
       name: username,
-      username,
       email,
-      photo: photoUrl,
-      points: 1,
-      swaps: 0,
-      verified: true
+      photo,
+      isAdult
     })
 
     navigate('/profile')
@@ -92,7 +87,7 @@ export function RegisterPage() {
             />
           </div>
 
-          {/* FOTO DE PERFIL — DEBAJO DE NOMBRE Y EMAIL */}
+          {/* FOTO DE PERFIL */}
           <div>
             <label style={{ fontSize: 14, fontWeight: 700 }}>Foto de perfil (opcional)</label>
             <input

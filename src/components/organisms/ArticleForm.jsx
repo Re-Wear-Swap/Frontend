@@ -21,11 +21,17 @@ const CATEGORIES = [
   { value: 'OTROS', label: 'Otros' },
 ]
 
-export const ArticleForm = ({ onSubmit }) => {
+export const ArticleForm = ({ onSubmit, initialData }) => {
   const { surface } = useTheme()
   const [form, setForm] = useState({
-    name: '', description: '', itemCondition: '', category: '', image: null,
+    name: initialData?.name || '',
+    description: initialData?.description || '',
+    itemCondition: initialData?.condition || '',
+    category: initialData?.category || '',
+    image: null,
   })
+  
+  
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
