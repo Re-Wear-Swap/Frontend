@@ -1,20 +1,24 @@
 import { HomeTemplate } from '../templates/HomeTemplate'
 import { ProfileInfo } from '../organisms/ProfileInfo'
 import { ProfileTabs } from '../organisms/ProfileTabs'
-
-const USER = {
-  name: 'Daniel',
-  username: 'daniel_re',
-  photo: 'https://randomuser.me/api/portraits/men/98.jpg',
-  verified: true,
-  points: 3,
-  swaps: 12,
-}
+import { useUser } from '../../context/UserContext'
 
 export function ProfilePage() {
+  const { user } = useUser()
+
+  // Si no hay usuario logueado, evitamos romper la UI
+  const activeUser = user || {
+    name: 'Invitad@',
+    username: 'usuario',
+    photo: null,
+    verified: false,
+    points: 0,
+    swaps: 0,
+  }
+
   return (
     <HomeTemplate activeTab="perfil">
-      <ProfileInfo user={USER} />
+      <ProfileInfo user={activeUser} />
       <ProfileTabs />
     </HomeTemplate>
   )
