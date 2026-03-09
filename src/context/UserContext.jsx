@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import { uploadImage } from '../services/imageService'
 import { api } from '../services/api'
 
@@ -6,6 +6,18 @@ const UserContext = createContext()
 
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null)
+
+  // ⭐ Cargar usuario guardado al iniciar la app
+  useEffect(() => {
+    const saved = localStorage.getItem('user')
+    if (saved) setUser(JSON.parse(saved))
+  }, [])
+
+  // ⭐ Guardar usuario cuando inicia sesión o se registra
+  const saveUser = (userData) => {
+    setUser(userData)
+    localStorage.setItem('user', JSON.stringify(userData))
+  }
 
   // REGISTRO
   const register = async ({ name, email, photo, isAdult }) => {
@@ -20,7 +32,7 @@ export function UserProvider({ children }) {
         photo: photoUrl,
       })
 
-      setUser(res.data) // <-- usuario guardado correctamente
+      saveUser(res.data)
     } catch (err) {
       console.error('Error registrando usuario:', err)
       alert('Error registrando usuario')
@@ -36,14 +48,17 @@ export function UserProvider({ children }) {
         params: { name, email },
       })
 
-      setUser(res.data)
+      saveUser(res.data)
     } catch (err) {
       console.error('Error iniciando sesión:', err)
       alert('Error iniciando sesión')
     }
   }
 
-  const logout = () => setUser(null)
+  const logout = () => {
+    setUser(null)
+    localStorage.removeItem('user')
+  }
 
   return (
     <UserContext.Provider value={{ user, register, login, logout }}>

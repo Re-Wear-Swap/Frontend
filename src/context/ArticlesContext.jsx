@@ -28,14 +28,20 @@ export const ArticlesProvider = ({ children }) => {
 
   // 🔥 Mapea artículos del backend a tu UI sin romper diseño
   const mapArticle = (a) => ({
-    ...a,
-    name: a.title ?? '',
-    description: a.description ?? '',
-    condition: a.itemCondition ?? '',
-    image: a.imageUrl ?? null,
-    points: 1,
-    isOwn: user ? a.user?.id === user.id : false,
-  })
+  id: a.id,
+  title: a.title,
+  description: a.description,
+  itemCondition: a.itemCondition,
+  category: a.category,
+  imageUrl: a.imageUrl,
+  createdAt: a.createdAt,
+  articleStatus: a.articleStatus,
+  reservation: a.reservation || null,
+  points: 1,
+  isOwn: user ? a.user?.id === user.id : false,
+})
+
+
 
   // 🔥 Cargar artículos desde backend
   const loadArticles = async () => {
@@ -52,8 +58,8 @@ export const ArticlesProvider = ({ children }) => {
       const sorted = [...data].sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       )
-
       setArticles(sorted.map(mapArticle))
+
     } catch (err) {
       console.error('Error cargando artículos:', err)
     } finally {
@@ -63,7 +69,7 @@ export const ArticlesProvider = ({ children }) => {
 
   useEffect(() => {
     loadArticles()
-  }, [page, categoryFilter, dateRange.start, dateRange.end, user])
+  }, [page, categoryFilter, dateRange.start, dateRange.end])
 
   // 🔥 Crear artículo
   const addArticle = async (formData) => {
@@ -82,7 +88,10 @@ export const ArticlesProvider = ({ children }) => {
       imageUrl,
       articleStatus: 'DISPONIBLE',
       user: { id: user.id },
+      createdAt: new Date().toISOString()
     }
+
+
 
     const saved = await createArticle(newArticle)
     setArticles((prev) => [{ ...mapArticle(saved), isOwn: true }, ...prev])
