@@ -6,24 +6,25 @@ import { SelectField } from '../atoms/SelectField'
 import { ImageUploader } from '../molecules/ImageUploader'
 
 const CONDITIONS = [
-  { value: 'Nuevo', label: 'Nuevo' },
-  { value: 'Usado: Buen estado', label: 'Usado: Buen estado' },
-  { value: 'Usado: Regular', label: 'Usado: Regular' },
+  { value: 'NUEVO', label: 'Nuevo' },
+  { value: 'USADO_BUEN_ESTADO', label: 'Buen estado' },
+  { value: 'USADO_REGULAR', label: 'Regular' },
 ]
 
 const CATEGORIES = [
-  { value: 'camisetas', label: 'Camisetas' },
-  { value: 'pantalones', label: 'Pantalones' },
-  { value: 'chaquetas', label: 'Chaquetas' },
-  { value: 'vestidos', label: 'Vestidos' },
-  { value: 'accesorios', label: 'Accesorios' },
-  { value: 'calzado', label: 'Calzado' },
+  { value: 'CAMISETAS', label: 'Camisetas' },
+  { value: 'PANTALONES', label: 'Pantalones' },
+  { value: 'CHAQUETAS', label: 'Chaquetas' },
+  { value: 'VESTIDOS', label: 'Vestidos' },
+  { value: 'ZAPATOS', label: 'Zapatos' },
+  { value: 'ACCESORIOS', label: 'Accesorios' },
+  { value: 'OTROS', label: 'Otros' },
 ]
 
 export const ArticleForm = ({ onSubmit }) => {
-  const { surface, text, border } = useTheme()
+  const { surface } = useTheme()
   const [form, setForm] = useState({
-    name: '', description: '', condition: '', category: '', image: null,
+    name: '', description: '', itemCondition: '', category: '', image: null,
   })
 
   const handleChange = (e) => {
@@ -35,7 +36,7 @@ export const ArticleForm = ({ onSubmit }) => {
   }
 
   const handleSubmit = () => {
-    if (!form.name || !form.condition || !form.category) {
+    if (!form.name || !form.itemCondition || !form.category) {
       alert('Por favor rellena los campos obligatorios')
       return
     }
@@ -49,7 +50,6 @@ export const ArticleForm = ({ onSubmit }) => {
       boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
     }}>
       <ImageUploader onImageChange={handleImage} />
-
       <InputField
         label="Nombre de la prenda *"
         name="name"
@@ -57,7 +57,6 @@ export const ArticleForm = ({ onSubmit }) => {
         onChange={handleChange}
         placeholder="Ej: Camiseta oversize blanca"
       />
-
       <TextAreaField
         label="Descripción"
         name="description"
@@ -65,15 +64,13 @@ export const ArticleForm = ({ onSubmit }) => {
         onChange={handleChange}
         placeholder="Describe la prenda, talla, detalles..."
       />
-
       <SelectField
         label="Condición *"
-        name="condition"
-        value={form.condition}
+        name="itemCondition"
+        value={form.itemCondition}
         onChange={handleChange}
         options={CONDITIONS}
       />
-
       <SelectField
         label="Categoría *"
         name="category"
@@ -81,15 +78,11 @@ export const ArticleForm = ({ onSubmit }) => {
         onChange={handleChange}
         options={CATEGORIES}
       />
-
-      <button
-        onClick={handleSubmit}
-        style={{
-          background: '#9333ea', color: 'white', border: 'none',
-          borderRadius: 50, padding: '16px', fontSize: 16,
-          fontWeight: 700, cursor: 'pointer', marginTop: 8,
-        }}
-      >
+      <button onClick={handleSubmit} style={{
+        background: '#9333ea', color: 'white', border: 'none',
+        borderRadius: 50, padding: '16px', fontSize: 16,
+        fontWeight: 700, cursor: 'pointer', marginTop: 8,
+      }}>
         Subir prenda
       </button>
     </div>
