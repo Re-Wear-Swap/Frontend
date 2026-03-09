@@ -3,15 +3,21 @@ import { CatalogCard } from '../molecules/CatalogCard'
 
 const FILTER_MAP = {
   'Todos': () => true,
-  'Nuevo': p => p.condition === 'Nuevo',
-  'Buen estado': p => p.condition === 'Buen estado',
-  'Regular': p => p.condition === 'Regular',
+  'Nuevo': p => p.condition === 'NUEVO',
+  'Buen estado': p => p.condition === 'USADO_BUEN_ESTADO',
+  'Regular': p => p.condition === 'USADO_REGULAR',
 }
 
 export const CatalogGrid = ({ filter }) => {
-  const { articles } = useArticles()
+  const { articles, loading } = useArticles()
   const filterFn = FILTER_MAP[filter] || FILTER_MAP['Todos']
   const filtered = articles.filter(filterFn)
+
+  if (loading) return (
+    <div style={{ textAlign: 'center', padding: 60, color: '#9333ea', fontSize: 16 }}>
+      Cargando prendas...
+    </div>
+  )
 
   return (
     <div style={{ padding: '0 16px 120px' }}>
