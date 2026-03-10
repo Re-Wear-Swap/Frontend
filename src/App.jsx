@@ -1,29 +1,31 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { HomePage } from './components/pages/HomePage'
 import { ProfilePage } from './components/pages/ProfilePage'
 import { CatalogPage } from './components/pages/CatalogPage'
 import { UploadPage } from './components/pages/UploadPage'
 import { ArticleDetailPage } from './components/pages/ArticleDetailPage'
 import { EditArticlePage } from './components/pages/EditArticlePage'
-
-// ⭐ AÑADIDOS
 import { LoginPage } from './components/pages/LoginPage'
 import { RegisterPage } from './components/pages/RegisterPage'
+import { useUser } from './context/UserContext'
+
+function PrivateRoute({ children }) {
+  const { user } = useUser()
+  return user ? children : <Navigate to="/" replace />
+}
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/catalog" element={<CatalogPage />} />
-      <Route path="/upload" element={<UploadPage />} />
-
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="*" element={<HomePage />} />
-      <Route path="/article/:id" element={<ArticleDetailPage />} />
-      <Route path="/edit/:id" element={<EditArticlePage />} />
-
+      <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+      <Route path="/catalog" element={<PrivateRoute><CatalogPage /></PrivateRoute>} />
+      <Route path="/upload" element={<PrivateRoute><UploadPage /></PrivateRoute>} />
+      <Route path="/article/:id" element={<PrivateRoute><ArticleDetailPage /></PrivateRoute>} />
+      <Route path="/edit/:id" element={<PrivateRoute><EditArticlePage /></PrivateRoute>} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }
