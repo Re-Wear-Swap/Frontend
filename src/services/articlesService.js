@@ -18,14 +18,25 @@ export const createArticle = async (article) => {
   return res.json()
 }
 
+export const updateArticle = async (id, article) => {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...article, user: { id: CURRENT_USER_ID } }),
+  })
+  if (!res.ok) throw new Error('Error actualizando articulo')
+  return res.json()
+}
+
 export const deleteArticle = async (id) => {
   const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' })
   if (!res.ok) throw new Error('Error eliminando articulo')
 }
 
-export const getArticlesByUser = async (userId) => {
-  const res = await fetch(`${API_URL}/user/${userId}`)
-  if (!res.ok) throw new Error('Error cargando articulos del usuario')
-  const data = await res.json()
-  return data.content || data
+export const updateArticleStatus = async (id, status) => {
+  const res = await fetch(`${API_URL}/${id}/status?status=${status}`, {
+    method: 'PATCH',
+  })
+  if (!res.ok) throw new Error('Error actualizando estado')
+  return res.json()
 }

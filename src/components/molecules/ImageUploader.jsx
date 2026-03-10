@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useTheme } from '../../context/useTheme'
 
-export const ImageUploader = ({ onImageChange }) => {
+export const ImageUploader = ({ onImageChange, currentImage }) => {
   const { border } = useTheme()
-  const [preview, setPreview] = useState(null)
+  const [preview, setPreview] = useState(currentImage || null)
 
   const handleChange = (e) => {
     const file = e.target.files[0]
@@ -25,7 +25,7 @@ export const ImageUploader = ({ onImageChange }) => {
         {preview
           ? <img src={preview} alt="preview" style={{ maxHeight: 160, borderRadius: 12, objectFit: 'contain' }} />
           : <>
-              <span style={{ fontSize: 40 }}>ðŸ“·</span>
+              <span style={{ fontSize: 40 }}>í³·</span>
               <span style={{ fontSize: 13, color: '#9333ea', fontWeight: 600 }}>Subir foto de la prenda</span>
               <span style={{ fontSize: 11, color: '#aaa' }}>JPG, PNG hasta 5MB</span>
             </>
