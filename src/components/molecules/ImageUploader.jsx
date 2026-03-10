@@ -25,7 +25,7 @@ export const ImageUploader = ({ onImageChange, currentImage }) => {
         {preview
           ? <img src={preview} alt="preview" style={{ maxHeight: 160, borderRadius: 12, objectFit: 'contain' }} />
           : <>
-              <span style={{ fontSize: 40 }}>í³·</span>
+              <span style={{ fontSize: 40 }}>ðŸ“·</span>
               <span style={{ fontSize: 13, color: '#9333ea', fontWeight: 600 }}>Subir foto de la prenda</span>
               <span style={{ fontSize: 11, color: '#aaa' }}>JPG, PNG hasta 5MB</span>
             </>
