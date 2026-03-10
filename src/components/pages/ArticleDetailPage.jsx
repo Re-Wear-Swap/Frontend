@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { HomeTemplate } from '../templates/HomeTemplate'
-import { useArticles } from '../../context/ArticlesContext'
+import { useArticles } from '../../context/useArticles'
 
 export function ArticleDetailPage() {
   const { id } = useParams()

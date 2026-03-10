@@ -61,26 +61,6 @@ export const ClothingCard = ({ id, image, name, condition, points, status, isEmp
             🗑 Eliminar
           </button>
         )}
-        {isOwn && (
-  <button
-    onClick={() => window.location.href = `/edit/${id}`}
-    style={{
-      marginTop: 8,
-      width: '100%',
-      background: '#f3e8ff',
-      border: '1px solid #c084fc',
-      borderRadius: 8,
-      padding: '6px',
-      color: '#9333ea',
-      fontSize: 12,
-      fontWeight: 600,
-      cursor: 'pointer',
-    }}
-  >
-    ✏️ Editar
-  </button>
-)}
-
       </div>
     </div>
   )

@@ -41,7 +41,7 @@ export const CatalogCard = ({ id, image, name, description, condition, points, s
       <div style={{ position: 'relative', background: '#f5f5f5', minHeight: 200 }}>
         {image
           ? <img src={image} alt={name} style={{ width: '100%', height: 220, objectFit: 'cover' }} />
-          : <div style={{ height: 220, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 64 }}>ï¿½ï¿½ï¿½</div>
+          : <div style={{ height: 220, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 64 }}>í±•</div>
         }
         <span style={{
           position: 'absolute', top: 12, left: 12,

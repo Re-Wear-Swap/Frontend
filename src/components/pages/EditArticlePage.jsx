@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { HomeTemplate } from '../templates/HomeTemplate'
 import { ArticleForm } from '../organisms/ArticleForm'
-import { useArticles } from '../../context/ArticlesContext'
+import { useArticles } from '../../context/useArticles'
 
 export function EditArticlePage() {
   const { id } = useParams()

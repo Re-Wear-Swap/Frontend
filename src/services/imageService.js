@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 const CLOUD_NAME = 'annahico'
 const UPLOAD_PRESET = 'rewear_preset'
 
@@ -8,10 +6,16 @@ export const uploadImage = async (file) => {
   formData.append('file', file)
   formData.append('upload_preset', UPLOAD_PRESET)
 
-  const res = await axios.post(
-    `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-    formData
-  )
+  console.log('Subiendo imagen a Cloudinary...')
 
-  return res.data.secure_url
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+    method: 'POST',
+    body: formData,
+  })
+
+  const data = await res.json()
+  console.log('Respuesta Cloudinary:', data)
+
+  if (!res.ok) throw new Error(data.error?.message || 'Error subiendo imagen')
+  return data.secure_url
 }
