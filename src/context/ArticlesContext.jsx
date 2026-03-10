@@ -1,30 +1,31 @@
-import { createContext, useState, useEffect } from 'react'
+import { createContext, useState, useEffect, useContext } from 'react'
 import { getArticles, createArticle, updateArticle, deleteArticle, updateArticleStatus } from '../services/articlesService'
 import { uploadImage } from '../services/imageService'
+import { UserContext } from './UserContext'
 
 export const ArticlesContext = createContext()
 
-const CURRENT_USER_ID = 1
-
-const mapArticle = (a) => ({
+const mapArticle = (a, userId) => ({
   ...a,
   name: a.title,
   condition: a.itemCondition,
   image: a.imageUrl,
   status: a.articleStatus,
-  isOwn: a.user?.id === CURRENT_USER_ID,
+  isOwn: a.user?.id === userId,
 })
 
 export const ArticlesProvider = ({ children }) => {
+  const { user } = useContext(UserContext)
   const [articles, setArticles] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    setLoading(true)
     getArticles()
-      .then(data => setArticles(data.map(mapArticle)))
+      .then(data => setArticles(data.map(a => mapArticle(a, user?.id))))
       .catch(err => console.error('Error cargando articulos:', err))
       .finally(() => setLoading(false))
-  }, [])
+  }, [user])
 
   const addArticle = async (formData) => {
     let imageUrl = ''
@@ -38,10 +39,10 @@ export const ArticlesProvider = ({ children }) => {
       category: formData.category,
       imageUrl,
       articleStatus: 'DISPONIBLE',
-      user: { id: CURRENT_USER_ID },
+      user: { id: user?.id },
     }
     const saved = await createArticle(newArticle)
-    setArticles(prev => [{ ...mapArticle(saved), isOwn: true }, ...prev])
+    setArticles(prev => [{ ...mapArticle(saved, user?.id), isOwn: true }, ...prev])
   }
 
   const editArticle = async (id, formData) => {
@@ -56,10 +57,10 @@ export const ArticlesProvider = ({ children }) => {
       category: formData.category,
       imageUrl,
       articleStatus: formData.status || 'DISPONIBLE',
-      user: { id: CURRENT_USER_ID },
+      user: { id: user?.id },
     }
     const saved = await updateArticle(id, updated)
-    setArticles(prev => prev.map(a => a.id === Number(id) ? { ...mapArticle(saved), isOwn: true } : a))
+    setArticles(prev => prev.map(a => a.id === Number(id) ? { ...mapArticle(saved, user?.id), isOwn: true } : a))
   }
 
   const removeArticle = async (id) => {
@@ -69,7 +70,7 @@ export const ArticlesProvider = ({ children }) => {
 
   const changeStatus = async (id, newStatus) => {
     const saved = await updateArticleStatus(id, newStatus)
-    setArticles(prev => prev.map(a => a.id === id ? { ...a, ...mapArticle(saved) } : a))
+    setArticles(prev => prev.map(a => a.id === id ? { ...a, ...mapArticle(saved, user?.id) } : a))
   }
 
   return (

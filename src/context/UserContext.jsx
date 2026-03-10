@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import { uploadImage } from '../services/imageService'
 import { api } from '../services/api'
 
-const UserContext = createContext()
+export const UserContext = createContext()
 
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null)
