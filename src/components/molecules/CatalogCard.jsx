@@ -1,116 +1,85 @@
-import { useState } from 'react'
+import { useArticles } from '../../context/useArticles'
 
-export const CatalogCard = ({ id, image, name, description, condition, points }) => {
-  const conditionColor = condition === 'NUEVO' ? '#9333ea' : '#888'
-  const [isFav, setIsFav] = useState(false)
+const STATUS_COLORS = {
+  DISPONIBLE: '#22c55e',
+  RESERVADO: '#f59e0b',
+  INTERCAMBIADO: '#9333ea',
+}
+
+const STATUS_LABELS = {
+  DISPONIBLE: 'Disponible',
+  RESERVADO: 'Reservado',
+  INTERCAMBIADO: 'Intercambiado',
+}
+
+const CONDITION_COLORS = {
+  NUEVO: '#9333ea',
+  USADO_BUEN_ESTADO: '#888',
+  USADO_REGULAR: '#888',
+}
+
+export const CatalogCard = ({ id, image, name, description, condition, points, status, isOwn }) => {
+  const { changeStatus } = useArticles()
+
+  const handleReservar = async () => {
+    if (window.confirm('Reservar esta prenda?')) {
+      await changeStatus(id, 'RESERVADO')
+    }
+  }
+
+  const handleIntercambiar = async () => {
+    if (window.confirm('Marcar como intercambiada?')) {
+      await changeStatus(id, 'INTERCAMBIADO')
+    }
+  }
 
   return (
-    <div
-      onClick={() => window.location.href = `/article/${id}`}
-      style={{
-        background: 'white',
-        borderRadius: 20,
-        overflow: 'hidden',
-        boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
-        position: 'relative',
-        cursor: 'pointer'
-      }}
-    >
-      {/* Botón favorito */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation() // evita abrir el detalle al pulsar el corazón
-          setIsFav(prev => !prev)
-        }}
-        style={{
-          position: 'absolute',
-          top: 10,
-          right: 10,
-          zIndex: 2,
-          background: 'white',
-          border: 'none',
-          borderRadius: '50%',
-          width: 32,
-          height: 32,
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
-          fontSize: 16,
-          transition: 'transform 0.2s',
-          transform: isFav ? 'scale(1.2)' : 'scale(1)',
-        }}
-      >
-        {isFav ? '❤️' : '🤍'}
-      </button>
-
-      {/* Imagen */}
+    <div style={{
+      background: 'white', borderRadius: 20, overflow: 'hidden',
+      boxShadow: '0 2px 12px rgba(0,0,0,0.07)', position: 'relative',
+    }}>
       <div style={{ position: 'relative', background: '#f5f5f5', minHeight: 200 }}>
-        {image ? (
-          <img
-            src={image}
-            alt={name}
-            style={{ width: '100%', height: 220, objectFit: 'cover' }}
-          />
-        ) : (
-          <div
-            style={{
-              height: 220,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 64
-            }}
-          >
-            👕
-          </div>
+        {image
+          ? <img src={image} alt={name} style={{ width: '100%', height: 220, objectFit: 'cover' }} />
+          : <div style={{ height: 220, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 64 }}>���</div>
+        }
+        <span style={{
+          position: 'absolute', top: 12, left: 12,
+          background: '#facc15', color: '#1a1a1a',
+          borderRadius: 20, padding: '4px 12px',
+          fontSize: 12, fontWeight: 800,
+        }}>{points || 1} PUNTO</span>
+        {status && status !== 'DISPONIBLE' && (
+          <span style={{
+            position: 'absolute', bottom: 8, left: 8,
+            background: STATUS_COLORS[status], color: 'white',
+            borderRadius: 20, padding: '4px 10px', fontSize: 11, fontWeight: 700,
+          }}>{STATUS_LABELS[status]}</span>
         )}
-
-        <span
-          style={{
-            position: 'absolute',
-            top: 12,
-            left: 12,
-            background: '#facc15',
-            color: '#1a1a1a',
-            borderRadius: 20,
-            padding: '4px 12px',
-            fontSize: 12,
-            fontWeight: 800,
-          }}
-        >
-          {points} PUNTO
-        </span>
       </div>
-
-      {/* Texto */}
       <div style={{ padding: '12px 14px 16px' }}>
-        <p
-          style={{
-            margin: '0 0 4px',
-            fontSize: 11,
-            fontWeight: 700,
-            color: conditionColor,
-            letterSpacing: 1
-          }}
-        >
+        <p style={{ margin: '0 0 4px', fontSize: 11, fontWeight: 700, color: CONDITION_COLORS[condition] || '#888', letterSpacing: 1 }}>
           {condition}
         </p>
-
-        <h3
-          style={{
-            margin: '0 0 4px',
-            fontSize: 16,
-            fontWeight: 800
-          }}
-        >
-          {name}
-        </h3>
-
-        <p style={{ margin: 0, fontSize: 13, color: '#888' }}>
-          {description}
-        </p>
+        <h3 style={{ margin: '0 0 4px', fontSize: 16, fontWeight: 800 }}>{name}</h3>
+        <p style={{ margin: '0 0 8px', fontSize: 13, color: '#888' }}>{description}</p>
+        {status === 'DISPONIBLE' && !isOwn && (
+          <button onClick={handleReservar} style={{
+            width: '100%', background: '#9333ea', color: 'white',
+            border: 'none', borderRadius: 8, padding: '7px',
+            fontSize: 12, fontWeight: 600, cursor: 'pointer',
+          }}>Reservar</button>
+        )}
+        {status === 'RESERVADO' && isOwn && (
+          <button onClick={handleIntercambiar} style={{
+            width: '100%', background: '#f59e0b', color: 'white',
+            border: 'none', borderRadius: 8, padding: '7px',
+            fontSize: 12, fontWeight: 600, cursor: 'pointer',
+          }}>Marcar intercambiado</button>
+        )}
+        {status === 'DISPONIBLE' && isOwn && (
+          <p style={{ margin: 0, fontSize: 11, color: '#aaa', textAlign: 'center' }}>Tu prenda</p>
+        )}
       </div>
     </div>
   )
