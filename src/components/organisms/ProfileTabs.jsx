@@ -4,7 +4,7 @@ import { useArticles } from '../../context/useArticles'
 import { TabItem } from '../atoms/TabItem'
 import { ClothingCard } from '../molecules/ClothingCard'
 
-const TABS = ['Mi Armario', 'Intercambios', 'Favoritos']
+const TABS = ['Mi Armario', 'Intercambios']
 
 export const ProfileTabs = () => {
   const [activeTab, setActiveTab] = useState('Mi Armario')
@@ -31,9 +31,9 @@ export const ProfileTabs = () => {
         {activeTab === 'Intercambios' && (
           <p style={{ color: '#aaa', gridColumn: '1/-1', textAlign: 'center', padding: 40 }}>No hay intercambios aún</p>
         )}
-        {activeTab === 'Favoritos' && (
+        {/* {activeTab === 'Favoritos' && (
           <p style={{ color: '#aaa', gridColumn: '1/-1', textAlign: 'center', padding: 40 }}>No hay favoritos aún</p>
-        )}
+        )} */}
       </div>
     </div>
   )
