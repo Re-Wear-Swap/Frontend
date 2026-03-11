@@ -2,6 +2,9 @@ import { createContext, useState, useEffect, useContext } from 'react'
 import { getArticles, createArticle, updateArticle, deleteArticle, updateArticleStatus } from '../services/articlesService'
 import { uploadImage } from '../services/imageService'
 import { UserContext } from './UserContext'
+import { createReservation, deleteReservation } from '../services/reservationsService'
+
+
 
 export const ArticlesContext = createContext()
 
@@ -19,12 +22,21 @@ export const ArticlesProvider = ({ children }) => {
   const [articles, setArticles] = useState([])
   const [loading, setLoading] = useState(true)
 
+  // ⭐ FIX: evitar warning de React moviendo setLoading dentro de una función async
   useEffect(() => {
-    setLoading(true)
-    getArticles()
-      .then(data => setArticles(data.map(a => mapArticle(a, user?.id))))
-      .catch(err => console.error('Error cargando articulos:', err))
-      .finally(() => setLoading(false))
+    const load = async () => {
+      setLoading(true)
+      try {
+        const data = await getArticles()
+        setArticles(data.map(a => mapArticle(a, user?.id)))
+      } catch (err) {
+        console.error('Error cargando articulos:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    load()
   }, [user])
 
   const addArticle = async (formData) => {
@@ -73,9 +85,54 @@ export const ArticlesProvider = ({ children }) => {
     setArticles(prev => prev.map(a => a.id === id ? { ...a, ...mapArticle(saved, user?.id) } : a))
   }
 
+  // ⭐⭐⭐ RESERVAR PRENDA (conectado a Spring Boot)
+  const reserveArticle = async (articleId) => {
+    try {
+      const reservation = await createReservation(articleId, user?.id)
+
+      setArticles(prev =>
+        prev.map(a =>
+          a.id === articleId
+            ? { ...a, reservation, articleStatus: 'RESERVADO' }
+            : a
+        )
+      )
+    } catch (err) {
+      console.error('Error reservando:', err)
+    }
+  }
+
+  // ⭐⭐⭐ CANCELAR RESERVA (conectado a Spring Boot)
+  const cancelReservation = async (reservationId, articleId) => {
+    try {
+      await deleteReservation(reservationId)
+
+      setArticles(prev =>
+        prev.map(a =>
+          a.id === articleId
+            ? { ...a, reservation: null, articleStatus: 'DISPONIBLE' }
+            : a
+        )
+      )
+    } catch (err) {
+      console.error('Error cancelando reserva:', err)
+    }
+  }
+
   return (
-    <ArticlesContext.Provider value={{ articles, addArticle, editArticle, removeArticle, changeStatus, loading }}>
-      {children}
-    </ArticlesContext.Provider>
-  )
+  <ArticlesContext.Provider value={{ 
+    articles,
+    addArticle,
+    editArticle,
+    removeArticle,
+    changeStatus,
+    reserveArticle,     
+    cancelReservation,   
+    loading
+  }}>
+    {children}
+  </ArticlesContext.Provider>
+)
+
 }
+
