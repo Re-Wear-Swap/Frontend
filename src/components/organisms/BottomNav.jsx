@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/useTheme'
+import { useUser } from '../../context/UserContext'
 
 const TABS = [
   { icon: '🏠', label: 'Inicio', key: 'inicio', path: '/' },
@@ -11,6 +12,15 @@ const TABS = [
 export const BottomNav = ({ active }) => {
   const navigate = useNavigate()
   const { surface, border } = useTheme()
+  const { user } = useUser()
+
+  const handleNav = (path) => {
+    if (path !== '/' && !user) {
+      navigate('/login')
+    } else {
+      navigate(path)
+    }
+  }
 
   return (
     <nav style={{
@@ -20,7 +30,7 @@ export const BottomNav = ({ active }) => {
       padding: '10px 0', zIndex: 10,
     }}>
       {TABS.map(({ icon, label, key, path }) => (
-        <div key={key} onClick={() => navigate(path)} style={{ textAlign: 'center', cursor: 'pointer' }}>
+        <div key={key} onClick={() => handleNav(path)} style={{ textAlign: 'center', cursor: 'pointer' }}>
           <div style={{ fontSize: 22 }}>{icon}</div>
           <div style={{ fontSize: 10, fontWeight: 600, color: active === key ? '#9333ea' : '#aaa' }}>
             {label}

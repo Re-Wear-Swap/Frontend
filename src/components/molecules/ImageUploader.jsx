@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useTheme } from '../../context/useTheme'
 
-export const ImageUploader = ({ onImageChange }) => {
+export const ImageUploader = ({ onImageChange, currentImage }) => {
   const { border } = useTheme()
-  const [preview, setPreview] = useState(null)
+  const [preview, setPreview] = useState(currentImage || null)
 
   const handleChange = (e) => {
     const file = e.target.files[0]

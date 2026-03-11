@@ -21,10 +21,15 @@ const CATEGORIES = [
   { value: 'OTROS', label: 'Otros' },
 ]
 
-export const ArticleForm = ({ onSubmit }) => {
+export const ArticleForm = ({ onSubmit, initialData }) => {
   const { surface } = useTheme()
   const [form, setForm] = useState({
-    name: '', description: '', itemCondition: '', category: '', image: null,
+    name: initialData?.name || initialData?.title || '',
+    description: initialData?.description || '',
+    itemCondition: initialData?.itemCondition || initialData?.condition || '',
+    category: initialData?.category || '',
+    image: null,
+    imageUrl: initialData?.imageUrl || initialData?.image || '',
   })
 
   const handleChange = (e) => {
@@ -49,7 +54,7 @@ export const ArticleForm = ({ onSubmit }) => {
       padding: 24, display: 'flex', flexDirection: 'column', gap: 20,
       boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
     }}>
-      <ImageUploader onImageChange={handleImage} />
+      <ImageUploader onImageChange={handleImage} currentImage={form.imageUrl} />
       <InputField
         label="Nombre de la prenda *"
         name="name"
@@ -83,7 +88,7 @@ export const ArticleForm = ({ onSubmit }) => {
         borderRadius: 50, padding: '16px', fontSize: 16,
         fontWeight: 700, cursor: 'pointer', marginTop: 8,
       }}>
-        Subir prenda
+        {initialData ? 'Guardar cambios' : 'Subir prenda'}
       </button>
     </div>
   )
