@@ -14,12 +14,17 @@ function PrivateRoute({ children }) {
   return user ? children : <Navigate to="/" replace />
 }
 
+function PublicOnlyRoute({ children }) {
+  const { user } = useUser()
+  return user ? <Navigate to="/catalog" replace /> : children
+}
+
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/" element={<PublicOnlyRoute><HomePage /></PublicOnlyRoute>} />
+      <Route path="/login" element={<PublicOnlyRoute><LoginPage /></PublicOnlyRoute>} />
+      <Route path="/register" element={<PublicOnlyRoute><RegisterPage /></PublicOnlyRoute>} />
       <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
       <Route path="/catalog" element={<PrivateRoute><CatalogPage /></PrivateRoute>} />
       <Route path="/upload" element={<PrivateRoute><UploadPage /></PrivateRoute>} />
