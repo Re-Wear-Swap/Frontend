@@ -45,3 +45,10 @@ export const updateArticleStatus = async (id, status) => {
   if (!res.ok) throw new Error('Error actualizando estado')
   return res.json()
 }
+
+export const getReservationByArticle = async (articleId) => {
+  const res = await fetch(`${API_URL}/${articleId}/reservation`)
+  if (!res.ok) return null
+  const data = await res.json()
+  return data
+}
