@@ -2,12 +2,13 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { HomeTemplate } from '../templates/HomeTemplate'
 import { ArticleForm } from '../organisms/ArticleForm'
 import { useArticles } from '../../context/useArticles'
+import { useTheme } from '../../context/useTheme'
 
 export function EditArticlePage() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { articles, editArticle } = useArticles()
-
+  const { text } = useTheme()
   const article = articles.find(a => a.id === Number(id))
 
   const handleSubmit = async (formData) => {
@@ -25,7 +26,7 @@ export function EditArticlePage() {
   return (
     <HomeTemplate>
       <div style={{ maxWidth: 600, margin: '0 auto', padding: '24px 0 100px' }}>
-        <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>
+        <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8, color: text }}>
           Editar prenda
         </h1>
         <ArticleForm onSubmit={handleSubmit} initialData={article} />

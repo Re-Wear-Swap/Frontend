@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 import { ArticlesContext } from '../../context/ArticlesContext'
 import { getArticles } from '../../services/articlesService'
 import { CatalogCard } from '../molecules/CatalogCard'
+import { useTheme } from '../../context/useTheme'
 
 const CATEGORY_MAP = {
   'Todas': null,
@@ -23,6 +24,7 @@ const CONDITION_MAP = {
 
 export const CatalogGrid = ({ filters = {} }) => {
   const { articles: allArticles } = useContext(ArticlesContext)
+  const { text } = useTheme()
   const [filtered, setFiltered] = useState([])
   const [loading, setLoading] = useState(false)
   const { condition, category, startDate, endDate } = filters
@@ -38,11 +40,8 @@ export const CatalogGrid = ({ filters = {} }) => {
           const conditionFilter = CONDITION_MAP[condition]
           const result = conditionFilter ? data.filter(a => a.itemCondition === conditionFilter) : data
           setFiltered(result.map(a => ({
-            ...a,
-            name: a.title,
-            condition: a.itemCondition,
-            image: a.imageUrl,
-            status: a.articleStatus,
+            ...a, name: a.title, condition: a.itemCondition,
+            image: a.imageUrl, status: a.articleStatus,
           })))
         })
         .catch(err => console.error('Error filtrando:', err))
@@ -62,7 +61,7 @@ export const CatalogGrid = ({ filters = {} }) => {
   return (
     <div style={{ padding: '0 16px 120px' }}>
       <div style={{ marginBottom: 16 }}>
-        <h2 style={{ margin: '0 0 4px', fontSize: 22, fontWeight: 800 }}>Prendas disponibles</h2>
+        <h2 style={{ margin: '0 0 4px', fontSize: 22, fontWeight: 800, color: text }}>Prendas disponibles</h2>
         <p style={{ margin: 0, fontSize: 13, color: '#aaa' }}>{filtered.length} prendas encontradas</p>
       </div>
       {filtered.length === 0
