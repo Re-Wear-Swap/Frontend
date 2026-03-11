@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { HomeTemplate } from '../templates/HomeTemplate'
 import { useUser } from '../../context/UserContext'
 import { useTheme } from '../../context/useTheme'
+import { AvatarUploader } from '../molecules/AvatarUploader'
+
+const MAX_SIZE_MB = 2
 
 export function RegisterPage() {
   const navigate = useNavigate()
@@ -13,6 +16,15 @@ export function RegisterPage() {
   const [photo, setPhoto] = useState(null)
   const [isAdult, setIsAdult] = useState(false)
 
+  const handlePhoto = (file) => {
+    if (!file) { setPhoto(null); return }
+    if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+      alert(`La imagen no puede superar ${MAX_SIZE_MB}MB`)
+      return
+    }
+    setPhoto(file)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!isAdult) {
@@ -20,13 +32,13 @@ export function RegisterPage() {
       return
     }
     await register({ name: username, email, photo, isAdult })
-    navigate('/profile')
+    navigate('/catalog')
   }
 
   const inputStyle = {
     width: '100%', padding: 12, borderRadius: 12,
     border: `1px solid ${border}`, marginTop: 6,
-    background: surface, color: text,
+    background: surface, color: text, boxSizing: 'border-box',
   }
 
   return (
@@ -49,10 +61,7 @@ export function RegisterPage() {
             <input type="email" placeholder="tu@correo.com" value={email}
               onChange={e => setEmail(e.target.value)} required style={inputStyle} />
           </div>
-          <div>
-            <label style={{ fontSize: 14, fontWeight: 700, color: text }}>Foto de perfil (opcional)</label>
-            <input type="file" accept="image/*" onChange={e => setPhoto(e.target.files[0])} style={{ marginTop: 6, color: text }} />
-          </div>
+          <AvatarUploader onImageChange={handlePhoto} />
           <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: text }}>
             <input type="checkbox" checked={isAdult} onChange={() => setIsAdult(!isAdult)} required />
             Confirmo que soy mayor de edad para participar en el trueque.
