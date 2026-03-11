@@ -1,25 +1,18 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import { ArticlesContext } from '../../context/ArticlesContext'
 import { getArticles } from '../../services/articlesService'
 import { CatalogCard } from '../molecules/CatalogCard'
 import { useTheme } from '../../context/useTheme'
 
 const CATEGORY_MAP = {
-  'Todas': null,
-  'Camisetas': 'CAMISETAS',
-  'Pantalones': 'PANTALONES',
-  'Chaquetas': 'CHAQUETAS',
-  'Vestidos': 'VESTIDOS',
-  'Zapatos': 'ZAPATOS',
-  'Accesorios': 'ACCESORIOS',
-  'Otros': 'OTROS',
+  'Todas': null, 'Camisetas': 'CAMISETAS', 'Pantalones': 'PANTALONES',
+  'Chaquetas': 'CHAQUETAS', 'Vestidos': 'VESTIDOS', 'Zapatos': 'ZAPATOS',
+  'Accesorios': 'ACCESORIOS', 'Otros': 'OTROS',
 }
 
 const CONDITION_MAP = {
-  'Todos': null,
-  'Nuevo': 'NUEVO',
-  'Buen estado': 'USADO_BUEN_ESTADO',
-  'Regular': 'USADO_REGULAR',
+  'Todos': null, 'Nuevo': 'NUEVO',
+  'Buen estado': 'USADO_BUEN_ESTADO', 'Regular': 'USADO_REGULAR',
 }
 
 export const CatalogGrid = ({ filters = {} }) => {
@@ -28,28 +21,38 @@ export const CatalogGrid = ({ filters = {} }) => {
   const [filtered, setFiltered] = useState([])
   const [loading, setLoading] = useState(false)
   const { condition, category, startDate, endDate } = filters
+  const isMounted = useRef(true)
 
   useEffect(() => {
+    isMounted.current = true
     const categoryParam = CATEGORY_MAP[category] || null
     const hasBackendFilter = categoryParam || startDate || endDate
 
     if (hasBackendFilter) {
-      setLoading(true)
-      getArticles({ category: categoryParam, startDate, endDate })
-        .then(data => {
+      const fetchData = async () => {
+        setLoading(true)
+        try {
+          const data = await getArticles({ category: categoryParam, startDate, endDate })
+          if (!isMounted.current) return
           const conditionFilter = CONDITION_MAP[condition]
           const result = conditionFilter ? data.filter(a => a.itemCondition === conditionFilter) : data
           setFiltered(result.map(a => ({
             ...a, name: a.title, condition: a.itemCondition,
             image: a.imageUrl, status: a.articleStatus,
           })))
-        })
-        .catch(err => console.error('Error filtrando:', err))
-        .finally(() => setLoading(false))
+        } catch (err) {
+          console.error('Error filtrando:', err)
+        } finally {
+          if (isMounted.current) setLoading(false)
+        }
+      }
+      fetchData()
     } else {
       const conditionFilter = CONDITION_MAP[condition]
       setFiltered(conditionFilter ? allArticles.filter(a => a.condition === conditionFilter) : allArticles)
     }
+
+    return () => { isMounted.current = false }
   }, [condition, category, startDate, endDate, allArticles])
 
   if (loading) return (
