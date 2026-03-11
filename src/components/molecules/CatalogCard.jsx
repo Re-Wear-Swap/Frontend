@@ -1,4 +1,5 @@
 import { useArticles } from '../../context/useArticles'
+import { useNavigate } from 'react-router-dom'
 
 const STATUS_COLORS = {
   DISPONIBLE: '#22c55e',
@@ -20,28 +21,38 @@ const CONDITION_COLORS = {
 
 export const CatalogCard = ({ id, image, name, description, condition, points, status, isOwn }) => {
   const { changeStatus } = useArticles()
+  const navigate = useNavigate()
 
-  const handleReservar = async () => {
+  const handleReservar = async (e) => {
+    e.stopPropagation()
     if (window.confirm('Reservar esta prenda?')) {
       await changeStatus(id, 'RESERVADO')
     }
   }
 
-  const handleIntercambiar = async () => {
+  const handleIntercambiar = async (e) => {
+    e.stopPropagation()
     if (window.confirm('Marcar como intercambiada?')) {
       await changeStatus(id, 'INTERCAMBIADO')
     }
   }
 
   return (
-    <div style={{
-      background: 'white', borderRadius: 20, overflow: 'hidden',
-      boxShadow: '0 2px 12px rgba(0,0,0,0.07)', position: 'relative',
-    }}>
+    <div
+      onClick={() => navigate(`/article/${id}`)}
+      style={{
+        background: 'white',
+        borderRadius: 20,
+        overflow: 'hidden',
+        boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
+        position: 'relative',
+        cursor: 'pointer'
+      }}
+    >
       <div style={{ position: 'relative', background: '#f5f5f5', minHeight: 200 }}>
         {image
           ? <img src={image} alt={name} style={{ width: '100%', height: 220, objectFit: 'cover' }} />
-          : <div style={{ height: 220, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 64 }}>í±•</div>
+          : <div style={{ height: 220, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 64 }}>ðŸ§¥</div>
         }
         <span style={{
           position: 'absolute', top: 12, left: 12,
@@ -49,6 +60,7 @@ export const CatalogCard = ({ id, image, name, description, condition, points, s
           borderRadius: 20, padding: '4px 12px',
           fontSize: 12, fontWeight: 800,
         }}>{points || 1} PUNTO</span>
+
         {status && status !== 'DISPONIBLE' && (
           <span style={{
             position: 'absolute', bottom: 8, left: 8,
@@ -57,26 +69,40 @@ export const CatalogCard = ({ id, image, name, description, condition, points, s
           }}>{STATUS_LABELS[status]}</span>
         )}
       </div>
+
       <div style={{ padding: '12px 14px 16px' }}>
         <p style={{ margin: '0 0 4px', fontSize: 11, fontWeight: 700, color: CONDITION_COLORS[condition] || '#888', letterSpacing: 1 }}>
           {condition}
         </p>
         <h3 style={{ margin: '0 0 4px', fontSize: 16, fontWeight: 800 }}>{name}</h3>
         <p style={{ margin: '0 0 8px', fontSize: 13, color: '#888' }}>{description}</p>
+
         {status === 'DISPONIBLE' && !isOwn && (
-          <button onClick={handleReservar} style={{
-            width: '100%', background: '#9333ea', color: 'white',
-            border: 'none', borderRadius: 8, padding: '7px',
-            fontSize: 12, fontWeight: 600, cursor: 'pointer',
-          }}>Reservar</button>
+          <button
+            onClick={handleReservar}
+            style={{
+              width: '100%', background: '#9333ea', color: 'white',
+              border: 'none', borderRadius: 8, padding: '7px',
+              fontSize: 12, fontWeight: 600, cursor: 'pointer',
+            }}
+          >
+            Reservar
+          </button>
         )}
+
         {status === 'RESERVADO' && isOwn && (
-          <button onClick={handleIntercambiar} style={{
-            width: '100%', background: '#f59e0b', color: 'white',
-            border: 'none', borderRadius: 8, padding: '7px',
-            fontSize: 12, fontWeight: 600, cursor: 'pointer',
-          }}>Marcar intercambiado</button>
+          <button
+            onClick={handleIntercambiar}
+            style={{
+              width: '100%', background: '#f59e0b', color: 'white',
+              border: 'none', borderRadius: 8, padding: '7px',
+              fontSize: 12, fontWeight: 600, cursor: 'pointer',
+            }}
+          >
+            Marcar intercambiado
+          </button>
         )}
+
         {status === 'DISPONIBLE' && isOwn && (
           <p style={{ margin: 0, fontSize: 11, color: '#aaa', textAlign: 'center' }}>Tu prenda</p>
         )}
