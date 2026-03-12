@@ -36,7 +36,7 @@ export const ClothingCard = ({ id, image, name, condition, points, status, isEmp
       <div style={{ position: 'relative', background: '#f3f3f3', height: 180 }}>
         {image
           ? <img src={image} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48 }}>���</div>
+          : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48 }}>�</div>
         }
         <span style={{
           position: 'absolute', top: 8, right: 8,

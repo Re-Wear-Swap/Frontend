@@ -24,11 +24,8 @@ export const ProfileTabs = () => {
         .catch(err => console.error('Error cargando reservas:', err))
     }
   }, [user, articles])
-
-  // Artículos propios disponibles o reservados (armario activo)
   const myArticles = articles.filter(a => a.isOwn && a.status !== 'INTERCAMBIADO')
 
-  // Reservas hechas por el usuario como comprador (artículos RESERVADO que no son suyos)
   const reservasComoComprador = userReservations
     .filter(r => r.article?.articleStatus === 'RESERVADO')
     .map(r => ({
@@ -41,7 +38,6 @@ export const ProfileTabs = () => {
       reservationId: r.id,
     }))
 
-  // Artículos propios que están reservados por otros
   const reservasComoVendedor = articles.filter(a => a.isOwn && a.status === 'RESERVADO')
 
   const todasLasReservas = [
@@ -49,7 +45,6 @@ export const ProfileTabs = () => {
     ...reservasComoComprador.filter(rc => !reservasComoVendedor.find(rv => rv.id === rc.id))
   ]
 
-  // Intercambios
   const myIntercambiados = articles.filter(a => a.isOwn && a.status === 'INTERCAMBIADO')
   const intercambiadosComoComprador = userReservations
     .filter(r => r.article?.articleStatus === 'INTERCAMBIADO')
@@ -86,15 +81,15 @@ export const ProfileTabs = () => {
           todasLasReservas.length === 0
             ? <p style={{ color: '#aaa', gridColumn: '1/-1', textAlign: 'center', padding: 40 }}>No hay reservas activas</p>
             : todasLasReservas.map(item => (
-                <ClothingCard key={item.id} {...item} />
-              ))
+              <ClothingCard key={item.id} {...item} />
+            ))
         )}
         {activeTab === 'Intercambios' && (
           allIntercambios.length === 0
             ? <p style={{ color: '#aaa', gridColumn: '1/-1', textAlign: 'center', padding: 40 }}>No hay intercambios aún</p>
             : allIntercambios.map(item => (
-                <ClothingCard key={item.id} {...item} />
-              ))
+              <ClothingCard key={item.id} {...item} />
+            ))
         )}
       </div>
     </div>
