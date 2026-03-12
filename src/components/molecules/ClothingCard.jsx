@@ -3,11 +3,11 @@ import { useArticles } from '../../context/useArticles'
 
 const STATUS_COLORS = {
   Disponible: '#22c55e',
-  Reservado: '#9333ea',
-  Intercambiado: '#f59e0b',
+  Reservado: '#f59e0b',
+  Intercambiado: '#9333ea',
   DISPONIBLE: '#22c55e',
-  RESERVADO: '#9333ea',
-  INTERCAMBIADO: '#f59e0b',
+  RESERVADO: '#f59e0b',
+  INTERCAMBIADO: '#9333ea',
 }
 
 export const ClothingCard = ({ id, image, name, condition, points, status, isEmpty, onAdd, isOwn }) => {
@@ -36,7 +36,7 @@ export const ClothingCard = ({ id, image, name, condition, points, status, isEmp
       <div style={{ position: 'relative', background: '#f3f3f3', height: 180 }}>
         {image
           ? <img src={image} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48 }}>���</div>
+          : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48 }}>�</div>
         }
         <span style={{
           position: 'absolute', top: 8, right: 8,

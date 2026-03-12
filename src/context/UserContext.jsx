@@ -7,19 +7,16 @@ export const UserContext = createContext()
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null)
 
-  // ⭐ Cargar usuario guardado al iniciar la app
   useEffect(() => {
     const saved = localStorage.getItem('user')
     if (saved) setUser(JSON.parse(saved))
   }, [])
 
-  // ⭐ Guardar usuario cuando inicia sesión o se registra
   const saveUser = (userData) => {
     setUser(userData)
     localStorage.setItem('user', JSON.stringify(userData))
   }
 
-  // REGISTRO
   const register = async ({ name, email, photo, isAdult }) => {
     try {
       let photoUrl = null
@@ -39,7 +36,6 @@ export function UserProvider({ children }) {
     }
   }
 
-  // LOGIN
   const login = async ({ email }) => {
     try {
       const name = email.split('@')[0]
@@ -61,7 +57,7 @@ export function UserProvider({ children }) {
   }
 
   return (
-    <UserContext.Provider value={{ user, register, login, logout }}>
+    <UserContext.Provider value={{ user, register, login, logout, saveUser }}>
       {children}
     </UserContext.Provider>
   )
