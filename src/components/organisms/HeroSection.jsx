@@ -19,7 +19,8 @@ export const HeroSection = ({ onRegister, onGuest }) => {
         background: '#f3e8ff', color: '#7c3aed',
         borderRadius: 20, padding: '4px 14px', fontSize: 13, fontWeight: 700
       }}>
-        TEXTO APP
+        Rewear es el lugar donde intercambias prendas de forma justa y sostenible, sin necesidad de comprar nada. 
+        Cada artículo que publiques te dará puntos, y al confirmar un intercambio usarás uno de ellos para mantener el sistema equilibrado entre todos los usuarios.
       </span>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 400, margin: '28px auto 0' }}>
         <button onClick={onRegister} style={{
