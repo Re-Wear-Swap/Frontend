@@ -35,6 +35,14 @@ export const ArticlesProvider = ({ children }) => {
     load()
   }, [user])
 
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const data = await getArticles()
+      setArticles(data.map(a => mapArticle(a, user?.id)))
+    }, 60000)
+    return () => clearInterval(interval)
+  }, [user])
+
   const addArticle = async (formData) => {
     let imageUrl = ''
     if (formData.image) imageUrl = await uploadImage(formData.image)
