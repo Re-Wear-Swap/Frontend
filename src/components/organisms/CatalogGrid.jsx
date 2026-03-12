@@ -12,7 +12,7 @@ const CATEGORY_MAP = {
 
 const CONDITION_MAP = {
   'Todos': null, 'Nuevo': 'NUEVO',
-  'Buen estado': 'USADO BUEN ESTADO', 'Regular': 'USADO REGULAR',
+  'Buen estado': 'USADO_BUEN_ESTADO', 'Regular': 'USADO_REGULAR',
 }
 
 export const CatalogGrid = ({ filters = {} }) => {

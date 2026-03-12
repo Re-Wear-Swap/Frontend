@@ -12,7 +12,7 @@ const STATUS_LABELS = {
   DISPONIBLE: 'Disponible', RESERVADO: 'Reservado', INTERCAMBIADO: 'Intercambiado',
 }
 const CONDITION_COLORS = {
-  NUEVO: '#9333ea', 'USADO BUEN ESTADO': '#888', 'USADO REGULAR': '#888',
+  NUEVO: '#9333ea', 'USADO_BUEN_ESTADO': '#888', 'USADO_REGULAR': '#888',
 }
 
 const Countdown = ({ expiresAt }) => {
