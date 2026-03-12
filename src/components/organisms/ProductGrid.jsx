@@ -13,7 +13,7 @@ export const ProductGrid = ({ onViewAll }) => (
       display: 'flex', justifyContent: 'space-between',
       alignItems: 'center', marginBottom: 16
     }}>
-      <h2 style={{ margin: 0, fontSize: 20, fontWeight: 800 }}>Catálogo Reciente</h2>
+      <h2 style={{ margin: 0, fontSize: 20, fontWeight: 800 }}>Trending Topic</h2>
       <button onClick={onViewAll} style={{
         background: 'none', border: 'none', color: '#9333ea',
         fontWeight: 600, cursor: 'pointer', fontSize: 14
