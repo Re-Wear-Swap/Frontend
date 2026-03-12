@@ -3,11 +3,11 @@ import { useArticles } from '../../context/useArticles'
 
 const STATUS_COLORS = {
   Disponible: '#22c55e',
-  Reservado: '#9333ea',
-  Intercambiado: '#f59e0b',
+  Reservado: '#f59e0b',
+  Intercambiado: '#9333ea',
   DISPONIBLE: '#22c55e',
-  RESERVADO: '#9333ea',
-  INTERCAMBIADO: '#f59e0b',
+  RESERVADO: '#f59e0b',
+  INTERCAMBIADO: '#9333ea',
 }
 
 export const ClothingCard = ({ id, image, name, condition, points, status, isEmpty, onAdd, isOwn }) => {

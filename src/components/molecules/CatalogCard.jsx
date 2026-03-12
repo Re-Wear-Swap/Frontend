@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useArticles } from '../../context/useArticles'
 import { createReservation } from '../../services/reservationsService'
 import { getReservationByArticle } from '../../services/articlesService'
@@ -35,6 +36,7 @@ const Countdown = ({ expiresAt }) => {
 export const CatalogCard = ({ id, image, name, description, condition, points, status, isOwn }) => {
   const { changeStatus } = useArticles()
   const { user } = useUser()
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [expiresAt, setExpiresAt] = useState(null)
 
@@ -46,7 +48,8 @@ export const CatalogCard = ({ id, image, name, description, condition, points, s
     }
   }, [status, isOwn, id])
 
-  const handleReservar = async () => {
+  const handleReservar = async (e) => {
+    e.stopPropagation()
     if (!window.confirm('¿Reservar esta prenda? Tienes 24h para completar el intercambio.')) return
     setLoading(true)
     try {
@@ -59,7 +62,8 @@ export const CatalogCard = ({ id, image, name, description, condition, points, s
     }
   }
 
-  const handleIntercambiar = async () => {
+  const handleIntercambiar = async (e) => {
+    e.stopPropagation()
     if (!window.confirm('¿Marcar como intercambiada?')) return
     setLoading(true)
     try {
@@ -72,11 +76,14 @@ export const CatalogCard = ({ id, image, name, description, condition, points, s
   }
 
   return (
-    <div style={{ background: 'white', borderRadius: 20, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+    <div
+      onClick={() => navigate(`/article/${id}`)}
+      style={{ background: 'white', borderRadius: 20, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', cursor: 'pointer' }}
+    >
       <div style={{ position: 'relative', background: '#f5f5f5', minHeight: 200 }}>
         {image
           ? <img src={image} alt={name} style={{ width: '100%', height: 220, objectFit: 'cover' }} />
-          : <div style={{ height: 220, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 64 }}>👕</div>
+          : <div style={{ height: 220, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 64 }}>�</div>
         }
         <span style={{
           position: 'absolute', top: 12, left: 12, background: '#facc15',
@@ -107,7 +114,7 @@ export const CatalogCard = ({ id, image, name, description, condition, points, s
             width: '100%', background: '#e5e7eb', color: '#9ca3af',
             border: 'none', borderRadius: 8, padding: '7px',
             fontSize: 12, fontWeight: 600, cursor: 'not-allowed',
-          }}>👕 Reservado</button>
+          }}>🔒 Reservado</button>
         )}
         {status === 'RESERVADO' && isOwn && (
           <>
