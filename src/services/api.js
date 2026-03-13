@@ -6,3 +6,9 @@ export const api = axios.create({
     'Content-Type': 'application/json',
   },
 })
+
+export const getUser = async (userId) => {
+  const res = await fetch(`http://localhost:8080/api/users/${userId}`)
+  if (!res.ok) throw new Error('Error obteniendo usuario')
+  return res.json()
+}

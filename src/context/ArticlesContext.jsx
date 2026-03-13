@@ -3,6 +3,7 @@ import { getArticles, createArticle, updateArticle, deleteArticle, updateArticle
 import { uploadImage } from '../services/imageService'
 import { UserContext } from './UserContext'
 import { createReservation, cancelReservationByArticle, confirmExchange } from '../services/reservationsService'
+import { getUser } from '../services/api'
 
 export const ArticlesContext = createContext()
 
@@ -92,8 +93,13 @@ export const ArticlesProvider = ({ children }) => {
     try {
       const reservation = await createReservation(articleId, user?.id)
       setArticles(prev => prev.map(a => a.id === articleId ? { ...a, reservation, status: 'RESERVADO' } : a))
+      const updatedUser = await getUser(user?.id)
+      saveUser(updatedUser)
     } catch (err) {
-      console.error('Error reservando:', err)
+      if (err.message?.includes('403') || err.status === 403) {
+        throw new Error('Necesitas publicar una prenda para poder reservar')
+      }
+      throw err
     }
   }
 
@@ -101,6 +107,8 @@ export const ArticlesProvider = ({ children }) => {
     try {
       await cancelReservationByArticle(articleId)
       setArticles(prev => prev.map(a => a.id === articleId ? { ...a, reservation: null, status: 'DISPONIBLE' } : a))
+      const updatedUser = await getUser(user?.id)
+      saveUser(updatedUser)
     } catch (err) {
       console.error('Error cancelando reserva:', err)
     }
