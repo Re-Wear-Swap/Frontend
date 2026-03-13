@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useArticles } from '../../context/useArticles'
 import { useTheme } from '../../context/useTheme'
@@ -17,26 +17,40 @@ export const ProfileTabs = () => {
   const { border } = useTheme()
   const { user } = useUser()
 
-  useEffect(() => {
+  const loadReservations = useCallback(() => {
     if (user?.id) {
       getReservationsByUser(user.id)
         .then(reservations => setUserReservations(reservations))
         .catch(err => console.error('Error cargando reservas:', err))
     }
-  }, [user, articles])
+  }, [user?.id])
+
+  // Recargar cuando cambian articles o el tab activo
+  useEffect(() => {
+    loadReservations()
+  }, [loadReservations, articles, activeTab])
+
   const myArticles = articles.filter(a => a.isOwn && a.status !== 'INTERCAMBIADO')
 
+  // Reservas como comprador — sincronizar con estado local de articles
   const reservasComoComprador = userReservations
-    .filter(r => r.article?.articleStatus === 'RESERVADO')
-    .map(r => ({
-      ...r.article,
-      name: r.article.title,
-      condition: r.article.itemCondition,
-      image: r.article.imageUrl,
-      status: r.article.articleStatus,
-      isOwn: false,
-      reservationId: r.id,
-    }))
+    .filter(r => {
+      const localArticle = articles.find(a => a.id === r.article?.id)
+      const status = localArticle?.status || r.article?.articleStatus
+      return status === 'RESERVADO'
+    })
+    .map(r => {
+      const localArticle = articles.find(a => a.id === r.article?.id)
+      return {
+        id: r.article?.id,
+        name: localArticle?.name || r.article?.title,
+        condition: localArticle?.condition || r.article?.itemCondition,
+        image: localArticle?.image || r.article?.imageUrl,
+        status: localArticle?.status || r.article?.articleStatus,
+        isOwn: false,
+        reservationId: r.id,
+      }
+    })
 
   const reservasComoVendedor = articles.filter(a => a.isOwn && a.status === 'RESERVADO')
 
@@ -45,17 +59,26 @@ export const ProfileTabs = () => {
     ...reservasComoComprador.filter(rc => !reservasComoVendedor.find(rv => rv.id === rc.id))
   ]
 
+  // Intercambios como comprador
   const myIntercambiados = articles.filter(a => a.isOwn && a.status === 'INTERCAMBIADO')
   const intercambiadosComoComprador = userReservations
-    .filter(r => r.article?.articleStatus === 'INTERCAMBIADO')
-    .map(r => ({
-      ...r.article,
-      name: r.article.title,
-      condition: r.article.itemCondition,
-      image: r.article.imageUrl,
-      status: r.article.articleStatus,
-      isOwn: false,
-    }))
+    .filter(r => {
+      const localArticle = articles.find(a => a.id === r.article?.id)
+      const status = localArticle?.status || r.article?.articleStatus
+      return status === 'INTERCAMBIADO'
+    })
+    .map(r => {
+      const localArticle = articles.find(a => a.id === r.article?.id)
+      return {
+        id: r.article?.id,
+        name: localArticle?.name || r.article?.title,
+        condition: localArticle?.condition || r.article?.itemCondition,
+        image: localArticle?.image || r.article?.imageUrl,
+        status: 'INTERCAMBIADO',
+        isOwn: false,
+      }
+    })
+
   const allIntercambios = [
     ...myIntercambiados,
     ...intercambiadosComoComprador.filter(ic => !myIntercambiados.find(mi => mi.id === ic.id))
@@ -81,15 +104,15 @@ export const ProfileTabs = () => {
           todasLasReservas.length === 0
             ? <p style={{ color: '#aaa', gridColumn: '1/-1', textAlign: 'center', padding: 40 }}>No hay reservas activas</p>
             : todasLasReservas.map(item => (
-              <ClothingCard key={item.id} {...item} />
-            ))
+                <ClothingCard key={item.id} {...item} />
+              ))
         )}
         {activeTab === 'Intercambios' && (
           allIntercambios.length === 0
             ? <p style={{ color: '#aaa', gridColumn: '1/-1', textAlign: 'center', padding: 40 }}>No hay intercambios aún</p>
             : allIntercambios.map(item => (
-              <ClothingCard key={item.id} {...item} />
-            ))
+                <ClothingCard key={item.id} {...item} />
+              ))
         )}
       </div>
     </div>

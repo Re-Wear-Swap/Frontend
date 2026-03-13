@@ -1,10 +1,10 @@
 import { ProductCard } from '../molecules/ProductCard'
 
 const PRODUCTS = [
-  { id: 1, name: 'Camiseta Básica', condition: 'nuevo', points: 1 },
-  { id: 2, name: 'Vaqueros Slim', condition: 'bueno', points: 1 },
-  { id: 3, name: 'Chaqueta Punto', condition: 'nuevo', points: 1 },
-  { id: 4, name: 'Cazadora Biker', condition: 'usado', points: 1 },
+  { id: 1, name: 'Camiseta Gris', condition: 'nuevo', points: 1 },
+  { id: 2, name: 'Bambas Nike', condition: 'bueno', points: 1 },
+  { id: 3, name: 'Gorro Lana', condition: 'nuevo', points: 1 },
+  { id: 4, name: 'Camiseta Básica', condition: 'usado', points: 1 },
 ]
 
 export const ProductGrid = ({ onViewAll }) => (

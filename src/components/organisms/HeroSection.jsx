@@ -6,6 +6,13 @@ const USERS = [
   { photo: 'https://randomuser.me/api/portraits/men/77.jpg', online: true },
 ]
 
+const TRENDING_IMAGES = [
+  'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=300&q=80',
+  'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&q=80',
+  'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300&q=80',
+  'https://images.unsplash.com/photo-1594938298603-c8148c4b4e24?w=300&q=80',
+]
+
 export const HeroSection = ({ onRegister, onGuest }) => {
   const { text } = useTheme()
   return (
@@ -16,11 +23,14 @@ export const HeroSection = ({ onRegister, onGuest }) => {
         Trueque juvenil e inclusivo
       </p>
       <span style={{
+        display: 'block',
         background: '#f3e8ff', color: '#7c3aed',
-        borderRadius: 20, padding: '4px 14px', fontSize: 13, fontWeight: 700
+        borderRadius: 20, padding: '12px 20px', fontSize: 13, fontWeight: 700,
+        textAlign: 'center', lineHeight: 1.6,
       }}>
-        Rewear es el lugar donde intercambias prendas de forma justa y sostenible, sin necesidad de comprar nada. 
-        Cada artículo que publiques te dará puntos, y al confirmar un intercambio usarás uno de ellos para mantener el sistema equilibrado entre todos los usuarios.
+        Rewear es el lugar donde intercambias prendas de forma justa y sostenible.<br />
+        Cada artículo que publiques te dará puntos para reservar prendas de otros.<br />
+        Al confirmar un intercambio, el sistema se mantiene equilibrado para todos.
       </span>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 400, margin: '28px auto 0' }}>
         <button onClick={onRegister} style={{
@@ -37,3 +47,5 @@ export const HeroSection = ({ onRegister, onGuest }) => {
     </section>
   )
 }
+
+export { TRENDING_IMAGES }

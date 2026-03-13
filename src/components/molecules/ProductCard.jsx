@@ -1,6 +1,14 @@
 import { StatusDot } from '../atoms/StatusDot'
 
 const placeholderColors = ['#e9d5ff', '#dbeafe', '#fef9c3', '#fce7f3']
+const placeholderImages = [
+  'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=300&q=80',
+  'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&q=80',
+  'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300&q=80',
+  'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=300&q=80',
+  'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=300&q=80',
+  'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&q=80',
+]
 
 export const ProductCard = ({ image, name, condition, points, id }) => (
   <div
@@ -33,9 +41,12 @@ export const ProductCard = ({ image, name, condition, points, id }) => (
           }}
         />
       ) : (
-        <span style={{ fontSize: 48 }}>👕</span>
+        <img
+          src={placeholderImages[(id - 1) % placeholderImages.length]}
+          alt="ropa"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
       )}
-
       <span style={{
         position: 'absolute',
         top: 10,
@@ -50,7 +61,6 @@ export const ProductCard = ({ image, name, condition, points, id }) => (
         {points} PUNTO
       </span>
     </div>
-
     <div style={{ padding: '10px 14px 14px' }}>
       <h3 style={{
         margin: '0 0 6px',
@@ -59,7 +69,6 @@ export const ProductCard = ({ image, name, condition, points, id }) => (
       }}>
         {name}
       </h3>
-
       <StatusDot status={condition} />
     </div>
   </div>
