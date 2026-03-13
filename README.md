@@ -204,13 +204,12 @@ La interfaz sigue la metodología **Atomic Design**:
 | **Anna Costa**              | [@annahico](https://github.com/annahico)                 | [LinkedIn](https://www.linkedin.com/in/annahico/)                |
 | **Jen Ceballos**            | [@jenCeballos](https://github.com/JenCeballos)           | [LinkedIn](https://www.linkedin.com/in/jen-ceballos/)            |
 
-> 💜 Proyecto desarrollado durante el **FemCoders P8 Barcelona Bootcamp 2025**
+> 💜 Proyecto desarrollado durante el **FemCoders P8 Barcelona Bootcamp 2025 - 2026**
 
 ---
 
 ## 🌱 Posibles Mejoras Futuras
 
-- 📱 Diseño responsive completo para móvil y tablet
 - 🔔 Sistema de notificaciones en tiempo real
 - 💬 Chat entre usuarios para coordinar intercambios
 - 🗺️ Geolocalización para filtrar artículos cercanos

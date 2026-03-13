@@ -25,14 +25,13 @@ export const ProfileTabs = () => {
     }
   }, [user?.id])
 
-  // Recargar cuando cambian articles o el tab activo
+
   useEffect(() => {
     loadReservations()
   }, [loadReservations, articles, activeTab])
 
   const myArticles = articles.filter(a => a.isOwn && a.status !== 'INTERCAMBIADO')
 
-  // Reservas como comprador — sincronizar con estado local de articles
   const reservasComoComprador = userReservations
     .filter(r => {
       const localArticle = articles.find(a => a.id === r.article?.id)
@@ -59,7 +58,6 @@ export const ProfileTabs = () => {
     ...reservasComoComprador.filter(rc => !reservasComoVendedor.find(rv => rv.id === rc.id))
   ]
 
-  // Intercambios como comprador
   const myIntercambiados = articles.filter(a => a.isOwn && a.status === 'INTERCAMBIADO')
   const intercambiadosComoComprador = userReservations
     .filter(r => {
@@ -104,15 +102,15 @@ export const ProfileTabs = () => {
           todasLasReservas.length === 0
             ? <p style={{ color: '#aaa', gridColumn: '1/-1', textAlign: 'center', padding: 40 }}>No hay reservas activas</p>
             : todasLasReservas.map(item => (
-                <ClothingCard key={item.id} {...item} />
-              ))
+              <ClothingCard key={item.id} {...item} />
+            ))
         )}
         {activeTab === 'Intercambios' && (
           allIntercambios.length === 0
             ? <p style={{ color: '#aaa', gridColumn: '1/-1', textAlign: 'center', padding: 40 }}>No hay intercambios aún</p>
             : allIntercambios.map(item => (
-                <ClothingCard key={item.id} {...item} />
-              ))
+              <ClothingCard key={item.id} {...item} />
+            ))
         )}
       </div>
     </div>

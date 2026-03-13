@@ -20,7 +20,6 @@ export const HomeTemplate = ({ children, activeTab = 'inicio' }) => {
           onClick={() => navigate('/')}
           style={{ height: 48, width: 'auto', objectFit: 'contain', cursor: 'pointer' }}
         />
-        {/* <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: 'white' }}>Re-wear</h2> */}
         <button onClick={toggleTheme} style={{
           background: 'none', border: 'none', fontSize: 24, cursor: 'pointer'
         }}>
