@@ -6,7 +6,7 @@ import { useTheme } from '../../context/useTheme'
 import { Modal } from '../atoms/Modal'
 import { useModal } from '../../context/useModal'
 
-const MAX_SIZE_MB = 0.1
+const MAX_SIZE_MB = 5
 
 export function UploadPage() {
   const navigate = useNavigate()

@@ -65,7 +65,7 @@ export const ClothingCard = ({ id, image, name, condition, status, isEmpty, onAd
         <div style={{ padding: '10px 12px 12px' }}>
           <p style={{ margin: 0, fontSize: 12, color: '#888' }}>{CONDITION_LABELS[condition] || condition}</p>
           <h4 style={{ margin: '2px 0 8px', fontSize: 14, fontWeight: 700, color: text }}>{name}</h4>
-          {isOwn && (
+          {isOwn && status !== 'INTERCAMBIADO' && (
             <div style={{ display: 'flex', gap: 6 }}>
               <button onClick={handleEdit} style={{
                 flex: 1, background: '#f3e8ff', color: '#9333ea',
