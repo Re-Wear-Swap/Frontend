@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8080/api/articles'
+const API_URL = `${import.meta.env.VITE_API_URL}/articles`
 
 export const getArticles = async ({ category, startDate, endDate } = {}) => {
   const params = new URLSearchParams()

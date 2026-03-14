@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8080/api/reservations'
+const API_URL = `${import.meta.env.VITE_API_URL}/reservations`
 
 export const createReservation = async (articleId, userId) => {
   const res = await fetch(`${API_URL}?articleId=${articleId}&userId=${userId}`, { method: 'POST' })
@@ -23,7 +23,7 @@ export const getReservationsByUser = async (userId) => {
 }
 
 export const confirmExchange = async (articleId) => {
-  const res = await fetch(`http://localhost:8080/api/reservations/${articleId}/confirm`, {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/reservations/${articleId}/confirm`, {
     method: 'PUT',
   })
   if (!res.ok) throw new Error('Error confirmando intercambio')
